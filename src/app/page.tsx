@@ -1,8 +1,8 @@
-import { ArrowRight, BellRing, CalendarDays, MapPin, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import { CalendarDays, MapPin, Phone, Star } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { BackOfficePreview } from "@/features/dashboard/components/back-office-preview";
-import { BookingCard } from "@/features/booking/components/booking-card";
+import { testimonials } from "@/data/salon";
 import { ServiceGrid } from "@/features/salon/components/service-grid";
 import { StaffRoster } from "@/features/salon/components/staff-roster";
 import { siteConfig } from "@/lib/site-config";
@@ -32,106 +32,137 @@ export default function Home() {
         }}
       />
 
-      <section className="bg-zinc-950 text-white">
-        <div className="container-page grid min-h-[calc(100vh-64px)] items-center gap-10 py-12 md:grid-cols-[1.05fr_0.95fr]">
+      <section className="bg-white">
+        <div className="container-page grid min-h-[calc(100vh-64px)] items-center gap-10 py-10 md:grid-cols-[0.95fr_1.05fr]">
           <div>
-            <p className="inline-flex rounded-full border border-white/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.1em] text-stone-200">
-              Reservation salon France
+            <p className="inline-flex rounded-full border border-line bg-muted px-3 py-1 text-xs font-extrabold uppercase text-zinc-700">
+              Coiffure & barbier
             </p>
-            <h1 className="mt-6 max-w-3xl font-serif text-5xl font-semibold leading-[0.95] md:text-7xl">
+            <h1 className="heading-luxe mt-6 max-w-3xl text-5xl leading-[0.95] md:text-7xl">
               The Barber Studio
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-300">
-              Une base professionnelle pour un salon de coiffure : vitrine SEO,
-              parcours de rendez-vous mobile, back-office, notifications et
-              conformite RGPD/CNIL pensee des le depart.
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-700">
+              Coupes nettes, barbe precise, couleur lumineuse et soins profonds
+              dans un salon calme, elegant et ponctuel.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href="/reserver">
                 <CalendarDays className="size-4" aria-hidden="true" />
                 Reserver un rendez-vous
               </ButtonLink>
-              <ButtonLink href="/back-office" variant="outline">
-                Voir le back-office
-                <ArrowRight className="size-4" aria-hidden="true" />
+              <ButtonLink href="#prestations" variant="outline">
+                Voir les tarifs
               </ButtonLink>
             </div>
           </div>
-          <div className="rounded-lg border border-white/10 bg-white/8 p-5 shadow-2xl">
-            <div className="aspect-[4/5] rounded-md bg-[linear-gradient(135deg,#f8efe2,#9c6b4a_45%,#191716)] p-5">
-              <div className="flex h-full flex-col justify-between rounded-md border border-white/25 p-5">
-                <p className="text-sm uppercase tracking-[0.12em] text-white/80">
-                  Coupe, barbe, soin
-                </p>
-                <div>
-                  <p className="font-serif text-4xl font-semibold">09:30</p>
-                  <p className="mt-2 text-sm text-white/80">
-                    Premier creneau disponible demain avec Marc.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="relative min-h-[440px] overflow-hidden rounded-lg border border-line bg-muted shadow-[0_24px_60px_rgba(17,17,17,0.12)]">
+            <Image
+              src="/images/salon-hero.png"
+              alt="Interieur elegant d'un salon de coiffure et barbier"
+              fill
+              priority
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
 
-      <section id="prestations" className="container-page py-20">
+      <section id="prestations" className="border-t border-line bg-background py-20">
+        <div className="container-page">
         <SectionHeading
-          eyebrow="Catalogue"
-          title="Prestations et tarifs structures"
-          description="Les prestations sont separees en donnees reutilisables, avec prix, duree, categorie et coiffeurs compatibles."
+          eyebrow="Prestations"
+          title="Des services clairs, sans surprise"
+          description="Choisissez votre prestation, le coiffeur qui vous convient, puis un creneau disponible."
         />
         <div className="mt-10">
           <ServiceGrid />
         </div>
-      </section>
-
-      <section className="bg-white py-20">
-        <div className="container-page grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-          <div>
-            <SectionHeading
-              eyebrow="Reservation"
-              title="Parcours clair, logique separee"
-              description="Le composant ci-dessous utilise un hook dedie et des fonctions metier pour preparer la future connexion base de donnees."
-            />
-            <div className="mt-8 grid gap-4 text-sm text-zinc-700">
-              <p className="flex gap-3">
-                <BellRing className="mt-0.5 size-5 text-accent" aria-hidden="true" />
-                Emails et SMS transactionnels separes des campagnes marketing.
-              </p>
-              <p className="flex gap-3">
-                <ShieldCheck className="mt-0.5 size-5 text-accent" aria-hidden="true" />
-                Delais de reservation et d&apos;annulation parametrables.
-              </p>
-              <p className="flex gap-3">
-                <MapPin className="mt-0.5 size-5 text-accent" aria-hidden="true" />
-                Fuseau horaire fixe : {siteConfig.timeZone}.
-              </p>
-            </div>
-          </div>
-          <BookingCard />
         </div>
       </section>
 
-      <section id="equipe" className="container-page py-20">
+      <section id="equipe" className="bg-white py-20">
+        <div className="container-page">
         <SectionHeading
           eyebrow="Equipe"
-          title="Coiffeurs et competences"
-          description="Chaque coiffeur est rattache aux prestations qu'il peut realiser pour eviter les rendez-vous impossibles."
+          title="Une equipe attentive au detail"
+          description="Barbe, coupe, couleur ou soin : chaque rendez-vous commence par un conseil simple et precis."
         />
         <div className="mt-10">
           <StaffRoster />
         </div>
+        </div>
       </section>
 
-      <section id="conformite" className="bg-muted py-20">
-        <div className="container-page grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+      <section id="avis" className="border-y border-line bg-background py-20">
+        <div className="container-page">
           <SectionHeading
-            eyebrow="France / RGPD"
-            title="Conformite integree au produit"
-            description="Le projet privilegie des prestataires UE/France, un consentement cookies explicite, la minimisation des donnees et un journal des actions sensibles."
+            eyebrow="Avis"
+            title="Ce que les clients apprecient"
           />
-          <BackOfficePreview />
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {testimonials.map((testimonial) => (
+              <article
+                key={testimonial.name}
+                className="rounded-lg border border-line bg-white p-5 shadow-sm"
+              >
+                <div className="flex gap-1 text-accent">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star
+                      key={index}
+                      className="size-4 fill-current"
+                      aria-hidden="true"
+                    />
+                  ))}
+                </div>
+                <p className="mt-4 text-sm leading-6 text-zinc-700">
+                  {testimonial.text}
+                </p>
+                <p className="mt-4 font-semibold text-zinc-950">
+                  {testimonial.name}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="acces" className="container-page py-20">
+        <div className="grid gap-8 rounded-lg border border-line bg-white p-6 shadow-sm md:grid-cols-[1fr_1fr] md:p-10">
+          <div>
+            <p className="text-sm font-extrabold uppercase text-zinc-600">
+              Acces
+            </p>
+            <h2 className="heading-luxe mt-3 text-4xl">
+              Nous trouver
+            </h2>
+            <p className="mt-4 flex gap-3 text-zinc-700">
+              <MapPin className="mt-0.5 size-5 text-ink" aria-hidden="true" />
+              <span>
+                {siteConfig.address.street}, {siteConfig.address.postalCode}{" "}
+                {siteConfig.address.city}
+              </span>
+            </p>
+            <p className="mt-3 flex gap-3 text-zinc-700">
+              <Phone className="mt-0.5 size-5 text-ink" aria-hidden="true" />
+              <span>{siteConfig.phone}</span>
+            </p>
+          </div>
+          <div className="grid gap-3 text-sm text-zinc-700">
+            {siteConfig.openingHours.map((item) => (
+              <div
+                key={item.day}
+                className="flex justify-between gap-4 border-b border-line pb-3"
+              >
+                <span>{item.day}</span>
+                <span className="font-bold text-ink">{item.hours}</span>
+              </div>
+            ))}
+            <ButtonLink href="/reserver" className="mt-3 w-full sm:w-fit">
+              <CalendarDays className="size-4" aria-hidden="true" />
+              Reserver maintenant
+            </ButtonLink>
+          </div>
         </div>
       </section>
     </>

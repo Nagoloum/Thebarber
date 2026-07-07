@@ -96,7 +96,7 @@ export function BookingCard() {
             >
               <p className="font-semibold">Premier disponible</p>
               <p className="mt-1 text-sm text-zinc-300">
-                Le systeme proposera les meilleurs creneaux selon la prestation.
+                Le prochain creneau libre avec un coiffeur adapte.
               </p>
             </button>
             {eligibleStaff.map((staff) => (
@@ -188,9 +188,12 @@ export function BookingCard() {
               </div>
             </dl>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button onClick={reset}>Nouvelle simulation</Button>
+              <Button>Confirmer le rendez-vous</Button>
               <Button variant="outline" onClick={() => goToStep("customer")}>
                 Modifier
+              </Button>
+              <Button variant="ghost" onClick={reset}>
+                Recommencer
               </Button>
             </div>
           </div>
@@ -249,7 +252,7 @@ function CustomerStep({
         </span>
       </label>
       <Button type="submit" className="w-full sm:w-fit">
-        Voir le recapitulatif
+        Continuer
       </Button>
     </form>
   );

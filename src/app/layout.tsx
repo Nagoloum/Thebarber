@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import { CookieConsent } from "@/components/compliance/cookie-consent";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-const bodyFont = DM_Sans({
+const bodyFont = Inter({
   variable: "--font-body",
   subsets: ["latin"],
   display: "swap",
 });
 
-const displayFont = Cormorant_Garamond({
+const displayFont = Montserrat({
   variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
-  weight: ["500", "600", "700"],
+  weight: ["600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -59,7 +59,7 @@ export default function RootLayout({
       lang="fr"
       className={`${bodyFont.variable} ${displayFont.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-stone-50 text-zinc-950">
+      <body className="flex min-h-full flex-col bg-background text-foreground">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

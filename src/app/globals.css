@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf7f2;
-  --foreground: #191716;
+  --background: #fafafa;
+  --foreground: #111111;
   --surface: #ffffff;
-  --muted: #f1ece4;
-  --accent: #7f1d2d;
-  --accent-strong: #5f1421;
-  --sage: #607464;
-  --gold: #b88a44;
+  --muted: #f3f4f6;
+  --accent: #ff7a00;
+  --accent-strong: #e06a00;
+  --line: #e5e7eb;
+  --ink: #111111;
 }
 
 @theme inline {
@@ -18,8 +18,8 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
-  --color-sage: var(--sage);
-  --color-gold: var(--gold);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
   --font-sans: var(--font-body);
   --font-serif: var(--font-display);
 }
@@ -39,10 +39,18 @@ textarea {
 }
 
 ::selection {
-  background: rgba(127, 29, 45, 0.18);
+  background: rgba(255, 122, 0, 0.2);
 }
 
 .container-page {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1160px, calc(100% - 32px));
   margin-inline: auto;
+}
+
+.heading-luxe {
+  font-family: var(--font-display), Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  color: var(--foreground);
 }

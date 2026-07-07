@@ -18,8 +18,8 @@ export default function BookingPage() {
           Prendre rendez-vous
         </h1>
         <p className="mt-4 text-lg leading-8 text-zinc-600">
-          Parcours mobile first en cinq etapes, pret a connecter aux API de
-          disponibilite, notifications et paiement en phase 2.
+          Choisissez une prestation, un coiffeur et un creneau. Aucun compte
+          n&apos;est necessaire.
         </p>
       </div>
       <BookingCard />

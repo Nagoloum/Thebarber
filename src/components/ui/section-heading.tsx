@@ -13,11 +13,11 @@ export function SectionHeading({
   return (
     <div className="max-w-3xl">
       {eyebrow ? <Badge>{eyebrow}</Badge> : null}
-      <h2 className="mt-4 font-serif text-4xl font-semibold leading-tight text-zinc-950 md:text-5xl">
+      <h2 className="heading-luxe mt-4 text-3xl leading-tight md:text-5xl">
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-base leading-7 text-zinc-600 md:text-lg">
+        <p className="mt-4 text-base leading-7 text-zinc-700 md:text-lg">
           {description}
         </p>
       ) : null}
