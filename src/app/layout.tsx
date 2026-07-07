@@ -57,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${bodyFont.variable} ${displayFont.variable} h-full scroll-smooth antialiased`}
+      className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <SiteHeader />

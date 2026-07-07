@@ -33,7 +33,7 @@ export default function Home() {
       />
 
       <section className="bg-white">
-        <div className="container-page grid min-h-[calc(100vh-64px)] items-center gap-10 py-10 md:grid-cols-[0.95fr_1.05fr]">
+        <div className="container-page grid min-h-[calc(100vh-64px)] items-center gap-10 py-12 md:grid-cols-[0.95fr_1.05fr] md:py-10">
           <div>
             <p className="inline-flex rounded-full border border-line bg-muted px-3 py-1 text-xs font-extrabold uppercase text-zinc-700">
               Coiffure & barbier
@@ -55,7 +55,7 @@ export default function Home() {
               </ButtonLink>
             </div>
           </div>
-          <div className="relative min-h-[440px] overflow-hidden rounded-lg border border-line bg-muted shadow-[0_24px_60px_rgba(17,17,17,0.12)]">
+          <div className="relative hidden min-h-[440px] overflow-hidden rounded-lg border border-line bg-muted shadow-[0_24px_60px_rgba(17,17,17,0.12)] md:block">
             <Image
               src="/images/salon-hero.png"
               alt="Interieur elegant d'un salon de coiffure et barbier"
@@ -106,7 +106,7 @@ export default function Home() {
                 key={testimonial.name}
                 className="rounded-lg border border-line bg-white p-5 shadow-sm"
               >
-                <div className="flex gap-1 text-accent">
+                <div className="flex gap-1 text-ink">
                   {Array.from({ length: 5 }).map((_, index) => (
                     <Star
                       key={index}

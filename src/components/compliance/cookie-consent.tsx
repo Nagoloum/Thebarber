@@ -40,13 +40,13 @@ export function CookieConsent() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-zinc-200 bg-white p-4 shadow-2xl">
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-white p-4 shadow-2xl">
       <div className="container-page flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-sm font-semibold text-zinc-950">
+          <p className="text-sm font-extrabold uppercase text-ink">
             Gestion des cookies conforme CNIL
           </p>
-          <p className="mt-1 max-w-3xl text-sm leading-6 text-zinc-600">
+          <p className="mt-1 max-w-3xl text-sm leading-6 text-zinc-700">
             Les cookies strictement necessaires fonctionnent toujours. Les mesures
             d&apos;audience et campagnes marketing ne seront activees qu&apos;apres votre accord.
           </p>
