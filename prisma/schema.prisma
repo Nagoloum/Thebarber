@@ -1,0 +1,285 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  CLIENT
+  STAFF
+  MANAGER
+  ADMIN
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+}
+
+enum ConsentType {
+  COOKIES_ANALYTICS
+  COOKIES_MARKETING
+  EMAIL_MARKETING
+  SMS_MARKETING
+  TERMS
+  PRIVACY_POLICY
+}
+
+enum LegalRequestType {
+  ACCESS
+  RECTIFICATION
+  ERASURE
+  PORTABILITY
+  OPPOSITION
+}
+
+enum LegalRequestStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+model User {
+  id              String    @id @default(cuid())
+  name            String?
+  firstName       String?
+  lastName        String?
+  email           String    @unique
+  emailVerified   DateTime?
+  phone           String?
+  image           String?
+  passwordHash    String?
+  role            UserRole  @default(CLIENT)
+  loyaltyPoints   Int       @default(0)
+  hairPreferences String?
+  internalNotes   String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  accounts                Account[]
+  sessions                Session[]
+  appointments            Appointment[]            @relation("ClientAppointments")
+  staffProfile            StaffMember?
+  consentLogs             ConsentLog[]
+  legalRequests           LegalRequest[]
+  notificationPreferences NotificationPreference?
+  auditLogs               AuditLog[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model StaffMember {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  slug      String   @unique
+  displayName String
+  title     String
+  bio       String?
+  color     String   @default("#7f1d2d")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  services         StaffService[]
+  appointments     Appointment[]
+  blockedSlots     BlockedSlot[]
+  workingSchedules WorkingSchedule[]
+}
+
+model ServiceCategory {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  sortOrder Int      @default(0)
+  services  Service[]
+}
+
+model Service {
+  id              String   @id @default(cuid())
+  categoryId      String
+  slug            String   @unique
+  name            String
+  description     String
+  durationMinutes Int
+  bufferMinutes   Int      @default(0)
+  priceCents      Int
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  category     ServiceCategory @relation(fields: [categoryId], references: [id])
+  staff        StaffService[]
+  appointments Appointment[]
+}
+
+model StaffService {
+  staffId   String
+  serviceId String
+
+  staff   StaffMember @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  service Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([staffId, serviceId])
+}
+
+model WorkingSchedule {
+  id          String @id @default(cuid())
+  staffId     String
+  weekday     Int
+  startsAtMin Int
+  endsAtMin   Int
+  isActive    Boolean @default(true)
+
+  staff StaffMember @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  @@index([staffId, weekday])
+}
+
+model BlockedSlot {
+  id        String   @id @default(cuid())
+  staffId   String?
+  reason    String
+  startsAt  DateTime
+  endsAt    DateTime
+  createdAt DateTime @default(now())
+
+  staff StaffMember? @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  @@index([staffId, startsAt, endsAt])
+}
+
+model Appointment {
+  id             String            @id @default(cuid())
+  clientId       String?
+  staffId        String
+  serviceId      String
+  status         AppointmentStatus @default(PENDING)
+  startsAt       DateTime
+  endsAt         DateTime
+  guestFirstName String?
+  guestLastName  String?
+  guestEmail     String?
+  guestPhone     String?
+  source         String            @default("web")
+  cancellationReason String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  client  User?       @relation("ClientAppointments", fields: [clientId], references: [id])
+  staff   StaffMember @relation(fields: [staffId], references: [id])
+  service Service     @relation(fields: [serviceId], references: [id])
+
+  @@index([startsAt, endsAt])
+  @@index([staffId, startsAt])
+}
+
+model NotificationPreference {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  reminderEmail  Boolean  @default(true)
+  reminderSms    Boolean  @default(true)
+  marketingEmail Boolean  @default(false)
+  marketingSms   Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ConsentLog {
+  id         String      @id @default(cuid())
+  userId     String?
+  type       ConsentType
+  granted    Boolean
+  ipHash     String?
+  userAgent  String?
+  policyVersion String
+  createdAt  DateTime    @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, type, createdAt])
+}
+
+model LegalRequest {
+  id        String             @id @default(cuid())
+  userId    String?
+  email     String
+  type      LegalRequestType
+  status    LegalRequestStatus @default(OPEN)
+  message   String?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  closedAt  DateTime?
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  ipHash    String?
+  createdAt DateTime @default(now())
+
+  actor User? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entity, entityId])
+  @@index([actorId, createdAt])
+}
